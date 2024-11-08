@@ -3,7 +3,7 @@ import threading
 import time
 import random
 import math
-from flickering_windows import create_window
+from scripts.flickering_windows import create_window
 
 def random_frequency():
     # Generate a random frequency between 0.05 and 0.0001 on a logarithmic scale
