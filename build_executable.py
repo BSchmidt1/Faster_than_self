@@ -1,1 +1,1 @@
-build_scripts/
+BUILD_DIR = 'build_scripts/'
