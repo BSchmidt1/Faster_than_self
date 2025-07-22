@@ -1,5 +1,5 @@
 # Faster_than_self
-Faster than self (FTS) are different tools that help with highlighting impermanence in experience by showing phenomena that happen faster than the experience of self, permanence, suffering or attention.
+Faster than self (FTS) are different tools that help which highlighting impermanence in experience by showing phenomena that happen faster than the experiences of self, permanence, suffering or attention.
 
 Currently very much a work in progress. 
 
