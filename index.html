@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flickering Windows & Metronomes</title>
+    <title>Faster than Self</title>
     <style>
         * {
             margin: 0;
@@ -12,195 +12,157 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
-            overflow-x: hidden;
+            padding: 40px 20px;
+            line-height: 1.6;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
-            animation: fadeIn 1s ease-out;
+            margin-bottom: 20px;
+            max-width: 600px;
         }
 
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #ff006e, #8338ec, #3a86ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmer 3s ease-in-out infinite;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+            color: #222;
         }
 
-        @keyframes shimmer {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+        .subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 30px;
         }
 
         .windows-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            max-width: 800px;
+            gap: 3px;
+            max-width: 400px;
             width: 100%;
-            margin-bottom: 40px;
-            animation: slideUp 0.8s ease-out;
+            margin: 0 auto 40px;
+            background: #ddd;
+            padding: 3px;
+            border: 1px solid #ccc;
         }
 
         .window {
             aspect-ratio: 1;
-            border-radius: 12px;
-            transition: all 0.05s ease-out;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .window::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transform: rotate(45deg);
-            transition: all 0.5s;
-            opacity: 0;
-        }
-
-        .window:hover::before {
-            animation: shine 0.5s ease-in-out;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 1; }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+            transition: background-color 0s;
         }
 
         .controls {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
             padding: 30px;
-            max-width: 800px;
+            max-width: 500px;
             width: 100%;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: slideUp 1s ease-out;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .control-group {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
 
         .control-group h3 {
             margin-bottom: 15px;
-            color: #8338ec;
-            font-size: 1.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #444;
         }
 
         .slider-container {
             display: flex;
             align-items: center;
             gap: 20px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+        }
+
+        .slider-container label {
+            font-size: 0.9rem;
+            color: #666;
+            min-width: 80px;
         }
 
         .slider {
             flex: 1;
             -webkit-appearance: none;
             appearance: none;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
+            height: 4px;
+            background: #ddd;
             outline: none;
-            transition: all 0.3s;
+            transition: background 0.3s;
         }
 
         .slider:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: #ccc;
         }
 
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #8338ec;
+            width: 16px;
+            height: 16px;
+            background: #666;
             cursor: pointer;
             border-radius: 50%;
-            transition: all 0.3s;
-            box-shadow: 0 2px 10px rgba(131, 56, 236, 0.5);
+            transition: background 0.3s;
         }
 
         .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-            background: #9a4aff;
-            box-shadow: 0 2px 20px rgba(131, 56, 236, 0.8);
+            background: #444;
         }
 
         .slider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            background: #8338ec;
+            width: 16px;
+            height: 16px;
+            background: #666;
             cursor: pointer;
             border-radius: 50%;
             border: none;
-            transition: all 0.3s;
-            box-shadow: 0 2px 10px rgba(131, 56, 236, 0.5);
+            transition: background 0.3s;
         }
 
         .slider::-moz-range-thumb:hover {
-            transform: scale(1.2);
-            background: #9a4aff;
-            box-shadow: 0 2px 20px rgba(131, 56, 236, 0.8);
+            background: #444;
         }
 
         input[type="number"] {
-            width: 100px;
-            padding: 8px 12px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 16px;
-            transition: all 0.3s;
+            width: 80px;
+            padding: 4px 8px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            color: #333;
+            font-size: 14px;
+            font-family: inherit;
         }
 
         input[type="number"]:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #8338ec;
             outline: none;
-            box-shadow: 0 0 0 3px rgba(131, 56, 236, 0.2);
+            border-color: #999;
+            background: #fff;
         }
 
         .metronome-section {
-            margin-top: 30px;
+            border-top: 1px solid #e5e5e5;
             padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .metronome {
-            background: rgba(255, 255, 255, 0.03);
+            background: #f9f9f9;
             padding: 20px;
-            border-radius: 15px;
             margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s;
-        }
-
-        .metronome:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid #e5e5e5;
         }
 
         .metronome-header {
@@ -210,96 +172,90 @@
             margin-bottom: 15px;
         }
 
+        .metronome-header h4 {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .metronome-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .metronome-indicator {
-            width: 30px;
-            height: 30px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.1s;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
+            background: #ddd;
+            transition: background-color 0.1s;
         }
 
         .metronome-indicator.active {
-            background: #ff006e;
-            box-shadow: 0 0 20px #ff006e, inset 0 0 10px rgba(255, 255, 255, 0.3);
-            animation: pulse 0.2s ease-out;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+            background: #333;
         }
 
         .toggle-btn {
-            padding: 8px 20px;
-            background: #8338ec;
-            color: white;
-            border: none;
-            border-radius: 25px;
+            padding: 6px 16px;
+            background: #fff;
+            color: #555;
+            border: 1px solid #ccc;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(131, 56, 236, 0.3);
+            font-size: 13px;
+            font-family: inherit;
+            transition: all 0.2s;
         }
 
         .toggle-btn:hover {
-            background: #9a4aff;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(131, 56, 236, 0.5);
+            background: #f5f5f5;
+            border-color: #999;
+            color: #333;
         }
 
         .toggle-btn:active {
-            transform: translateY(0);
+            background: #eee;
         }
 
         .toggle-btn.active {
-            background: #ff006e;
-            box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3);
+            background: #333;
+            color: #fff;
+            border-color: #333;
         }
 
         .toggle-btn.active:hover {
-            background: #ff3d87;
-            box-shadow: 0 6px 20px rgba(255, 0, 110, 0.5);
+            background: #555;
+            border-color: #555;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .info-text {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 5px;
         }
 
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .windows-container {
-                grid-template-columns: repeat(4, 1fr);
-                gap: 10px;
-            }
-            
+        @media (max-width: 600px) {
             .header h1 {
-                font-size: 2rem;
+                font-size: 1.75rem;
             }
             
             .controls {
                 padding: 20px;
+            }
+
+            .windows-container {
+                max-width: 300px;
             }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>Flickering Windows</h1>
-        <p>Hypnotic color patterns with synchronized metronomes</p>
+        <h1>Faster than Self</h1>
+        <p class="subtitle">
+            Observing phenomena that occur faster than the construction of self, permanence, or focused attention. 
+            Notice how the simultaneous changes happen before awareness can fully grasp them.
+        </p>
     </div>
 
     <div class="windows-container" id="windowsContainer">
@@ -308,21 +264,22 @@
 
     <div class="controls">
         <div class="control-group">
-            <h3>Window Speed Control</h3>
+            <h3>Synchronization Speed</h3>
             <div class="slider-container">
-                <label>Speed (ms):</label>
+                <label>Interval (ms):</label>
                 <input type="range" id="speedSlider" class="slider" min="1" max="1000" value="270" step="1">
                 <input type="number" id="speedNumber" min="1" max="1000" value="270">
             </div>
+            <p class="info-text">All windows change simultaneously at this interval</p>
         </div>
 
         <div class="metronome-section">
-            <h3>Metronomes</h3>
+            <h3>Synchronized Metronomes</h3>
             
             <div class="metronome">
                 <div class="metronome-header">
                     <h4>Metronome 1</h4>
-                    <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="metronome-controls">
                         <div class="metronome-indicator" id="metro1Indicator"></div>
                         <button class="toggle-btn" id="metro1Toggle">Start</button>
                     </div>
@@ -337,7 +294,7 @@
             <div class="metronome">
                 <div class="metronome-header">
                     <h4>Metronome 2</h4>
-                    <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="metronome-controls">
                         <div class="metronome-indicator" id="metro2Indicator"></div>
                         <button class="toggle-btn" id="metro2Toggle">Start</button>
                     </div>
@@ -348,6 +305,7 @@
                     <input type="number" id="metro2Number" min="1" max="18000" value="140">
                 </div>
             </div>
+            <p class="info-text">Metronomes tick in perfect synchronization when started together</p>
         </div>
     </div>
 
@@ -359,7 +317,7 @@
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         
         // Window management
-        let windowIntervals = [];
+        let windowInterval = null;
         let currentSpeed = 270;
         
         // Metronome management
@@ -377,22 +335,27 @@
             }
         }
         
-        // Start color changing for all windows
-        function startWindows() {
-            // Clear existing intervals
-            windowIntervals.forEach(interval => clearInterval(interval));
-            windowIntervals = [];
-            
+        // Change all windows simultaneously
+        function changeAllWindows() {
             const windows = document.querySelectorAll('.window');
-            windows.forEach((window, index) => {
-                // Add slight variation to each window's timing
-                const variation = 1 + (Math.random() * 0.2 - 0.1); // ±10% variation
-                const interval = setInterval(() => {
-                    const newColor = colors[Math.floor(Math.random() * colors.length)];
-                    window.style.backgroundColor = newColor;
-                }, currentSpeed * variation);
-                windowIntervals.push(interval);
+            const newColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // All windows change to the same random color at exactly the same time
+            windows.forEach(window => {
+                window.style.backgroundColor = newColor;
             });
+        }
+        
+        // Start synchronized window color changes
+        function startWindows() {
+            // Clear existing interval
+            if (windowInterval) {
+                clearInterval(windowInterval);
+            }
+            
+            // Start synchronized changes
+            changeAllWindows(); // Change immediately
+            windowInterval = setInterval(changeAllWindows, currentSpeed);
         }
         
         // Update window speed
@@ -404,7 +367,7 @@
         }
         
         // Create metronome beep
-        function playMetronomeSound(frequency = 800, duration = 50) {
+        function playMetronomeSound(frequency = 800, duration = 30) {
             const oscillator = audioContext.createOscillator();
             const gainNode = audioContext.createGain();
             
@@ -414,46 +377,74 @@
             oscillator.frequency.value = frequency;
             oscillator.type = 'sine';
             
-            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
             gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
             
             oscillator.start(audioContext.currentTime);
             oscillator.stop(audioContext.currentTime + duration / 1000);
         }
         
+        // Synchronized metronome tick
+        function metronomeTickSync() {
+            // Tick both metronomes at exactly the same time if they're active
+            if (metronome1.active) {
+                playMetronomeSound(800);
+                const indicator1 = document.getElementById('metro1Indicator');
+                indicator1.classList.add('active');
+                setTimeout(() => indicator1.classList.remove('active'), 100);
+            }
+            
+            if (metronome2.active) {
+                playMetronomeSound(1000);
+                const indicator2 = document.getElementById('metro2Indicator');
+                indicator2.classList.add('active');
+                setTimeout(() => indicator2.classList.remove('active'), 100);
+            }
+        }
+        
+        // Master metronome interval
+        let masterMetronomeInterval = null;
+        let masterBPM = 120;
+        
+        // Update master metronome
+        function updateMasterMetronome() {
+            if (masterMetronomeInterval) {
+                clearInterval(masterMetronomeInterval);
+            }
+            
+            if (metronome1.active || metronome2.active) {
+                // Use the lowest BPM to ensure both can tick
+                const bpm1 = parseInt(document.getElementById('metro1Number').value);
+                const bpm2 = parseInt(document.getElementById('metro2Number').value);
+                masterBPM = Math.min(bpm1, bpm2);
+                
+                const intervalMs = 60000 / masterBPM;
+                
+                // Start synchronized ticking
+                metronomeTickSync(); // Tick immediately
+                masterMetronomeInterval = setInterval(metronomeTickSync, intervalMs);
+            }
+        }
+        
         // Toggle metronome
         function toggleMetronome(metronomeNum) {
             const metronome = metronomeNum === 1 ? metronome1 : metronome2;
-            const indicator = document.getElementById(`metro${metronomeNum}Indicator`);
             const button = document.getElementById(`metro${metronomeNum}Toggle`);
-            const bpm = parseInt(document.getElementById(`metro${metronomeNum}Number`).value);
             
             if (metronome.active) {
                 // Stop metronome
-                clearInterval(metronome.interval);
                 metronome.active = false;
                 button.textContent = 'Start';
                 button.classList.remove('active');
-                indicator.classList.remove('active');
             } else {
                 // Start metronome
                 metronome.active = true;
                 button.textContent = 'Stop';
                 button.classList.add('active');
-                
-                const intervalMs = 60000 / bpm;
-                
-                // Play immediately
-                playMetronomeSound(metronomeNum === 1 ? 800 : 1000);
-                indicator.classList.add('active');
-                setTimeout(() => indicator.classList.remove('active'), 100);
-                
-                metronome.interval = setInterval(() => {
-                    playMetronomeSound(metronomeNum === 1 ? 800 : 1000);
-                    indicator.classList.add('active');
-                    setTimeout(() => indicator.classList.remove('active'), 100);
-                }, intervalMs);
             }
+            
+            // Update master metronome
+            updateMasterMetronome();
         }
         
         // Update metronome BPM
@@ -461,11 +452,9 @@
             document.getElementById(`metro${metronomeNum}Slider`).value = value;
             document.getElementById(`metro${metronomeNum}Number`).value = value;
             
-            // If metronome is active, restart it with new BPM
-            const metronome = metronomeNum === 1 ? metronome1 : metronome2;
-            if (metronome.active) {
-                toggleMetronome(metronomeNum); // Stop
-                toggleMetronome(metronomeNum); // Start with new BPM
+            // Update master metronome if any are active
+            if (metronome1.active || metronome2.active) {
+                updateMasterMetronome();
             }
         }
         
